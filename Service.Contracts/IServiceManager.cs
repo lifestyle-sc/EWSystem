@@ -9,5 +9,7 @@
         IAuthenticationService AuthenticationService { get; }
 
         IUserService UserService { get; }
+
+        IWaterSampleService WaterSampleService { get; }
     }
 }

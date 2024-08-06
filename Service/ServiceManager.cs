@@ -15,11 +15,13 @@ namespace Service
         private readonly Lazy<ICandidateService> _candidateService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IUserService> _userService;
+        private readonly Lazy<IWaterSampleService> _waterSampleService;
 
         public ServiceManager(IRepositoryManager repository, ILoggerManager logger, IMapper mapper, IOptions<JwtConfiguration> configuration, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _pollService = new Lazy<IPollService>(() => new PollService(repository, logger, mapper, userManager));
             _candidateService = new Lazy<ICandidateService>(() => new CandidateService(repository, logger, mapper));
+            _waterSampleService = new Lazy<IWaterSampleService>(() => new WaterSampleService(userManager, mapper, logger, repository));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, configuration, userManager, roleManager));
             _userService = new Lazy<IUserService>(() => new UserService(logger, mapper, configuration, userManager, roleManager));
         }
@@ -31,5 +33,7 @@ namespace Service
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
 
         public IUserService UserService => _userService.Value;
+
+        public IWaterSampleService WaterSampleService => _waterSampleService.Value;
     }
 }

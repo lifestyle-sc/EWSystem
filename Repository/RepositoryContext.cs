@@ -17,9 +17,11 @@ namespace Repository
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new WaterSampleConfiguration());
         }
 
         public DbSet<Poll> Polls { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<WaterSample> WaterSamples { get; set; }
     }
 }

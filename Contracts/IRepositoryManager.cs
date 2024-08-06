@@ -6,6 +6,8 @@
 
         IPollRepository Poll { get; }
 
+        IWaterSampleRepository WaterSample { get; }
+
         Task SaveAsync();
     }
 }
