@@ -22,6 +22,9 @@ namespace Shared.DTOs
         [Required(ErrorMessage = "Nitrates is a required field.")]
         public decimal Nitrates { get; init; }
 
+        [Required(ErrorMessage = "Nitrites is a required field.")]
+        public decimal Nitrites { get; init; }
+
         [Required(ErrorMessage = "Phosphates is a required field.")]
         public decimal Phosphates { get; init; }
 
@@ -60,6 +63,9 @@ namespace Shared.DTOs
 
         [Required(ErrorMessage = "TDS is a required field.")]
         public decimal TDS { get; init; }
+
+        [Required(ErrorMessage = "Conductivity is a required field.")]
+        public decimal Conductivity { get; init; }
 
         [Required(ErrorMessage = "Alkalinity is a required field.")]
         public decimal Alkalinity { get; init; }

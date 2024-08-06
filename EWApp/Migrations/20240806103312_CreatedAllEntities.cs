@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace EWApp.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseCreation : Migration
+    public partial class CreatedAllEntities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +34,8 @@ namespace EWApp.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -159,41 +163,55 @@ namespace EWApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Polls",
+                name: "WaterSamples",
                 columns: table => new
                 {
-                    PollId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SampleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Turbidity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Odor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Temperature = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PH = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Nitrates = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Nitrites = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Phosphates = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Ammonia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ChlorineResidual = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    HeavyMetals = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    COD = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BOD = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalColiforms = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FecalColiforms = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Enterococci = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PathogenicBacteria = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Viruses = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProtozoaOrHelminths = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TDS = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Conductivity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Alkalinity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Hardness = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Probability = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Polls", x => x.PollId);
+                    table.PrimaryKey("PK_WaterSamples", x => x.SampleId);
                     table.ForeignKey(
-                        name: "FK_Polls_AspNetUsers_UserId",
+                        name: "FK_WaterSamples_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Candidates",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
                 {
-                    CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false),
-                    PollId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Candidates", x => x.CandidateId);
-                    table.ForeignKey(
-                        name: "FK_Candidates_Polls_PollId",
-                        column: x => x.PollId,
-                        principalTable: "Polls",
-                        principalColumn: "PollId",
-                        onDelete: ReferentialAction.Cascade);
+                    { "0db4c71e-ab35-4371-8d3b-9ab25393171d", "3c57cbd6-5023-4f66-8f9d-d8f9651ea242", "Administrator", "ADMINISTRATOR" },
+                    { "f2647ac4-7416-44bc-80c3-84063e8091af", "50acad9c-7e9c-43ee-938d-37eee28dcf0f", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -236,13 +254,13 @@ namespace EWApp.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidates_PollId",
-                table: "Candidates",
-                column: "PollId");
+                name: "IX_WaterSamples_SampleId",
+                table: "WaterSamples",
+                column: "SampleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Polls_UserId",
-                table: "Polls",
+                name: "IX_WaterSamples_UserId",
+                table: "WaterSamples",
                 column: "UserId");
         }
 
@@ -265,13 +283,10 @@ namespace EWApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Candidates");
+                name: "WaterSamples");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Polls");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

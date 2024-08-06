@@ -18,6 +18,8 @@ namespace Shared.DTOs
 
         public decimal Nitrates { get; init; }
 
+        public decimal Nitrites { get; init; }
+
         public decimal Phosphates { get; init; }
 
         public decimal Ammonia { get; init; }
@@ -43,6 +45,8 @@ namespace Shared.DTOs
         public string? ProtozoaOrHelminths { get; init; }
 
         public decimal TDS { get; init; }
+
+        public decimal Conductivity { get; init; }
 
         public decimal Alkalinity { get; init; }
 

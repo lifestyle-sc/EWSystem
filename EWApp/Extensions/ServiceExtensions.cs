@@ -50,8 +50,7 @@ namespace EWApp.Extensions
             builder.AddMvcOptions(config =>
             {
                 config.OutputFormatters.Add(new UserCsvOutputFormatter());
-                config.OutputFormatters.Add(new PollCsvOutputFormatter());
-                config.OutputFormatters.Add(new CandidateCsvOutputFormatter());
+                config.OutputFormatters.Add(new WaterSampleCsvOutputFormatter());
             });
         public static void ConfigureResponseCache(this IServiceCollection services) =>
             services.AddResponseCaching();

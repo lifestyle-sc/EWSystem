@@ -26,6 +26,9 @@ namespace Entities.Models
         [Required(ErrorMessage = "Nitrates is a required field.")]
         public decimal Nitrates { get; set; }
 
+        [Required(ErrorMessage = "Nitrites is a required field.")]
+        public decimal Nitrites { get; set; }
+
         [Required(ErrorMessage = "Phosphates is a required field.")]
         public decimal Phosphates { get; set; }
 
@@ -64,6 +67,9 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "TDS is a required field.")]
         public decimal TDS { get; set; }
+
+        [Required(ErrorMessage = "Conductivity is a required field.")]
+        public decimal Conductivity { get; set; }
 
         [Required(ErrorMessage = "Alkalinity is a required field.")]
         public decimal Alkalinity { get; set; }

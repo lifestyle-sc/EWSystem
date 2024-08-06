@@ -12,18 +12,6 @@ namespace EWApp
 
             CreateMap<User, UserDto>();
 
-            CreateMap<PollForCreationDto, Poll>();
-
-            CreateMap<Poll, PollDto>();
-
-            CreateMap<PollForUpdateDto, Poll>().ReverseMap();
-
-            CreateMap<CandidateForCreationDto, Candidate>();
-
-            CreateMap<Candidate, CandidateDto>();
-
-            CreateMap<CandidateForUpdateDto, Candidate>().ReverseMap();
-
             CreateMap<WaterSampleForCreationDto, WaterSample>();
 
             CreateMap<WaterSample, WaterSampleDto>();

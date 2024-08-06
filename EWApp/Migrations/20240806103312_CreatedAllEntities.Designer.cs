@@ -12,8 +12,8 @@ using Repository;
 namespace EWApp.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230326031316_AddAdditionalRefreshTokenFields")]
-    partial class AddAdditionalRefreshTokenFields
+    [Migration("20240806103312_CreatedAllEntities")]
+    partial class CreatedAllEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,69 +24,6 @@ namespace EWApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Entities.Models.Candidate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CandidateId");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PollId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PollId");
-
-                    b.ToTable("Candidates");
-                });
-
-            modelBuilder.Entity("Entities.Models.Poll", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("PollId");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDisabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Polls");
-                });
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
@@ -165,6 +102,108 @@ namespace EWApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Models.WaterSample", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("SampleId");
+
+                    b.Property<decimal>("Alkalinity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Ammonia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BOD")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("COD")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ChlorineResidual")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Conductivity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Enterococci")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("FecalColiforms")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Hardness")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("HeavyMetals")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Nitrates")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Nitrites")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Odor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PH")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PathogenicBacteria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Phosphates")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Probability")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProtozoaOrHelminths")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TDS")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Temperature")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalColiforms")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Turbidity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Viruses")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WaterSamples");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -194,15 +233,15 @@ namespace EWApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b25b2a2f-b679-4508-8021-cee30f98541e",
-                            ConcurrencyStamp = "eaa4fefe-fb1a-4700-b977-d9d72f21b235",
+                            Id = "f2647ac4-7416-44bc-80c3-84063e8091af",
+                            ConcurrencyStamp = "50acad9c-7e9c-43ee-938d-37eee28dcf0f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1e280d7f-af2f-4003-9126-12e05f6227a4",
-                            ConcurrencyStamp = "f0bd38a5-82fa-46da-8043-79dff78f7db5",
+                            Id = "0db4c71e-ab35-4371-8d3b-9ab25393171d",
+                            ConcurrencyStamp = "3c57cbd6-5023-4f66-8f9d-d8f9651ea242",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -314,21 +353,10 @@ namespace EWApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Models.Candidate", b =>
-                {
-                    b.HasOne("Entities.Models.Poll", "Poll")
-                        .WithMany("Candidates")
-                        .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Poll");
-                });
-
-            modelBuilder.Entity("Entities.Models.Poll", b =>
+            modelBuilder.Entity("Entities.Models.WaterSample", b =>
                 {
                     b.HasOne("Entities.Models.User", "User")
-                        .WithMany("Polls")
+                        .WithMany("WaterSamples")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -385,14 +413,9 @@ namespace EWApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.Poll", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
-                    b.Navigation("Polls");
+                    b.Navigation("WaterSamples");
                 });
 #pragma warning restore 612, 618
         }
