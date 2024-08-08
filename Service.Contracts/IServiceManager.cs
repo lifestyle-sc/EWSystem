@@ -2,12 +2,12 @@
 {
     public interface IServiceManager
     {
-        IPollService PollService { get; }
-
-        ICandidateService CandidateService { get; }
-
         IAuthenticationService AuthenticationService { get; }
 
         IUserService UserService { get; }
+
+        IWaterSampleService WaterSampleService { get; }
+
+        ICsvService CsvService { get; }
     }
 }
