@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using Repository;
 using Service;
 using Service.Contracts;
+using Sylvan.AspNetCore.Mvc.Formatters;
 using System.Text;
 
 namespace EWApp.Extensions
@@ -51,6 +52,7 @@ namespace EWApp.Extensions
             {
                 config.OutputFormatters.Add(new UserCsvOutputFormatter());
                 config.OutputFormatters.Add(new WaterSampleCsvOutputFormatter());
+                config.InputFormatters.Add(new CsvInputFormatter());
             });
         public static void ConfigureResponseCache(this IServiceCollection services) =>
             services.AddResponseCaching();

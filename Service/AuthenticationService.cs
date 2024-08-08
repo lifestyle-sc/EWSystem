@@ -98,7 +98,8 @@ namespace Service
 
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("POLLING_SECRET"));
+            var ew_secret = Environment.GetEnvironmentVariable("EW_SECRET");
+            var key = Encoding.UTF8.GetBytes(ew_secret);
             var secret = new SymmetricSecurityKey(key);
 
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
@@ -107,7 +108,8 @@ namespace Service
         private async Task<List<Claim>> GetClaims()
         {
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, _user.UserName)
+                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim("userId", _user.Id)
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
@@ -146,7 +148,7 @@ namespace Service
 
         private ClaimsPrincipal GetClaimsPrincipalFromToken(string token)
         {
-            var key = Environment.GetEnvironmentVariable("POLLING_SECRET");
+            var key = Environment.GetEnvironmentVariable("EW_SECRET");
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             var tokenValidationParamters = new TokenValidationParameters

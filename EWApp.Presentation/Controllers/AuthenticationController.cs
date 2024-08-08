@@ -1,4 +1,5 @@
-﻿using EWApp.Presentation.ActionFilters;
+﻿using Entities.Models;
+using EWApp.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTOs;

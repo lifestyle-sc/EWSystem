@@ -8,6 +8,7 @@ namespace Repository
 {
     public class WaterSampleRepository : RepositoryBase<WaterSample>, IWaterSampleRepository
     {
+        private DateTime startDate = new DateTime(2023, 11, 1);
         public WaterSampleRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
@@ -15,8 +16,8 @@ namespace Repository
         public void CreateWaterSampleForUser(Guid userId, WaterSample waterSample)
         {
             waterSample.UserId = userId.ToString();
-            waterSample.CreatedAt = DateTime.UtcNow;
-            waterSample.UpdatedAt = DateTime.UtcNow;
+            waterSample.CreatedAt = GetRandomDays(startDate, DateTime.UtcNow);
+            waterSample.UpdatedAt = waterSample.CreatedAt;
             Create(waterSample);
         }
 
@@ -59,6 +60,18 @@ namespace Repository
         {
             waterSample.UpdatedAt = DateTime.UtcNow;
             Update(waterSample);
+        }
+
+        private DateTime GetRandomDays(DateTime startDate, DateTime endDate)
+        {
+            Random random = new Random();
+
+            int range = (endDate - startDate).Days;
+
+            return startDate.AddDays(random.Next(range))
+                            .AddHours(random.Next(0, 24))
+                            .AddMinutes(random.Next(0, 60))
+                            .AddSeconds(random.Next(0, 60));
         }
     }
 }

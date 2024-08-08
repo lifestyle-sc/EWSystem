@@ -7,5 +7,7 @@
         IUserService UserService { get; }
 
         IWaterSampleService WaterSampleService { get; }
+
+        ICsvService CsvService { get; }
     }
 }

@@ -42,6 +42,32 @@ namespace Service
             return waterSample;
         }
 
+        private decimal GetRandomDecimal(decimal minValue, decimal maxValue)
+        {
+            Random random = new Random();
+            double range = (double)(maxValue - minValue);
+            double sample = random.NextDouble();
+            return minValue + (decimal)(sample * range);
+        }
+
+        public async Task<WaterSampleDto> PredictProbabilityOfWaterBorneDiseaseOccurence(Guid userId, WaterSampleForCreationDto waterSampleForCreation)
+        {
+            await CheckIfUserExistsAsync(userId);
+
+            var waterSample = _mapper.Map<WaterSample>(waterSampleForCreation);
+
+            var probability = GetRandomDecimal(45.5m, 99.5m);
+            waterSample.Probability = probability;
+
+            _repository.WaterSample.CreateWaterSampleForUser(userId, waterSample);
+
+            await _repository.SaveAsync();
+
+            var waterSampleToReturn = _mapper.Map<WaterSampleDto>(waterSample);
+
+            return waterSampleToReturn;
+        }
+
         public async Task<(IEnumerable<WaterSampleDto> waterSampleToReturn, string ids)> CreateWaterSampleCollectionForUserAsync(Guid userId, IEnumerable<WaterSampleForCreationDto> waterSampleForCreation)
         {
             await CheckIfUserExistsAsync(userId);

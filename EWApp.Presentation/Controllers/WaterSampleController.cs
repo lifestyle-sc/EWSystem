@@ -1,6 +1,8 @@
 ﻿using EWApp.Presentation.ActionFilters;
 using EWApp.Presentation.ModelBinders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -12,6 +14,7 @@ namespace EWApp.Presentation.Controllers
 {
     [Route("api/users/{userId}/watersamples")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class WaterSampleController : ControllerBase
     {
         private readonly IServiceManager _services;
@@ -23,7 +26,6 @@ namespace EWApp.Presentation.Controllers
 
         [HttpGet(Name = "GetWaterSamplesForUser")]
         [HttpHead]
-        [Authorize]
         public async Task<IActionResult> GetWaterSamplesForUser(Guid userId, [FromQuery] WaterSampleParameters waterSampleParameters)
         {
             var result = await _services.WaterSampleService.GetWaterSamplesForUserAsync(userId, waterSampleParameters, trackChanges: false);
@@ -49,6 +51,15 @@ namespace EWApp.Presentation.Controllers
             return Ok(waterSampleToReturn);
         }
 
+        [HttpPost("predict", Name = "PredictProbabilityOfWaterBorneDiseaseOccurence")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> PredictProbabilityOfWaterBorneDiseaseOccurence(Guid userId, [FromBody] WaterSampleForCreationDto waterSampleForCreation)
+        {
+            var waterSampleToReturn = await _services.WaterSampleService.PredictProbabilityOfWaterBorneDiseaseOccurence(userId, waterSampleForCreation);
+
+            return CreatedAtRoute("GetWaterSampleForUser", new { userId, id = waterSampleToReturn.Id }, waterSampleToReturn);
+        }
+
         [HttpPost(Name = "CreateWaterSample")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateWaterSampleForUser(Guid userId, [FromBody] WaterSampleForCreationDto waterSampleForCreation)
@@ -62,6 +73,18 @@ namespace EWApp.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateWaterSampleCollectionForUser(Guid userId, [FromBody] IEnumerable<WaterSampleForCreationDto> waterSamplesForCreation)
         {
+            var result = await _services.WaterSampleService.CreateWaterSampleCollectionForUserAsync(userId, waterSamplesForCreation);
+
+            return CreatedAtRoute("GetWaterSamplesByIdsForUser", new { userId, result.ids }, result.waterSampleToReturn);
+        }
+
+        [HttpPost("collection/csv", Name = "CreateWaterSampleCollectionForUserCsv")]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateWaterSampleCollectionForUserCsv(Guid userId, [FromForm] IFormFileCollection file)
+        {
+            var streamFile = file[0].OpenReadStream();
+            var waterSamplesForCreation = _services.CsvService.ReadCSV<WaterSampleForCreationDto>(streamFile);
+
             var result = await _services.WaterSampleService.CreateWaterSampleCollectionForUserAsync(userId, waterSamplesForCreation);
 
             return CreatedAtRoute("GetWaterSamplesByIdsForUser", new { userId, result.ids }, result.waterSampleToReturn);

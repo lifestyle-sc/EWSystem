@@ -6,6 +6,8 @@ namespace Service.Contracts
 {
     public interface IWaterSampleService
     {
+        Task<WaterSampleDto> PredictProbabilityOfWaterBorneDiseaseOccurence(Guid userId, WaterSampleForCreationDto waterSampleForCreation);
+
         Task<WaterSampleDto> CreateWaterSampleForUserAsync(Guid userId, WaterSampleForCreationDto waterSampleForCreation);
 
         Task<(IEnumerable<WaterSampleDto> waterSampleToReturn, MetaData metaData)> GetWaterSamplesForUserAsync(Guid userId, WaterSampleParameters waterSampleParameters, bool trackChanges);
