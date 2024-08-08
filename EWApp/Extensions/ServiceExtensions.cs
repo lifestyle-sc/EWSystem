@@ -136,9 +136,9 @@ namespace EWApp.Extensions
             {
                 s.SwaggerDoc("v1", new OpenApiInfo { Title = "EW App API", Version = "v1" });
 
-                var xmlFile = $"{typeof(Presentation.AssemblyReference).Assembly.GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                s.IncludeXmlComments(xmlPath);
+                //var xmlFile = $"{typeof(Presentation.AssemblyReference).Assembly.GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //s.IncludeXmlComments(xmlPath);
 
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
