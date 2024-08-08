@@ -75,7 +75,7 @@ namespace EWApp.Extensions
                 new RateLimitRule
                 {
                     Endpoint = "*",
-                    Limit = 3,
+                    Limit = 10,
                     Period = "5m"
                 }
             };
