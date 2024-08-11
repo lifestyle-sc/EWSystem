@@ -25,10 +25,11 @@ namespace EWApp.Extensions
             {
                 options.AddPolicy("CorsPolicy", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("http://localhost:3000")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithExposedHeaders("X-Pagination");
+                    .WithExposedHeaders("X-Pagination")
+                    .AllowCredentials();
                 });
             });
 
