@@ -19,6 +19,9 @@ namespace EWApp.Presentation.Controllers
         {
             var tokenToReturn = await _services.AuthenticationService.RefreshToken(tokens);
 
+            HttpContext.Response.Cookies.Append("access-token", tokenToReturn.AccessToken);
+            HttpContext.Response.Cookies.Append("refresh-token", tokenToReturn.RefreshToken);
+
             return Ok(tokenToReturn);
         }
     }

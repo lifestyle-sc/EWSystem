@@ -41,6 +41,9 @@ namespace EWApp.Presentation.Controllers
 
             var tokenDto = await _services.AuthenticationService.CreateToken(populateExp: true);
 
+            HttpContext.Response.Cookies.Append("access-token", tokenDto.AccessToken);
+            HttpContext.Response.Cookies.Append("refresh-token", tokenDto.RefreshToken);
+
             return Ok(tokenDto);
         }
     }
