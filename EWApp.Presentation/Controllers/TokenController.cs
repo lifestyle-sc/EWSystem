@@ -1,4 +1,5 @@
 ﻿using EWApp.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTOs;
@@ -19,8 +20,14 @@ namespace EWApp.Presentation.Controllers
         {
             var tokenToReturn = await _services.AuthenticationService.RefreshToken(tokens);
 
-            HttpContext.Response.Cookies.Append("access-token", tokenToReturn.AccessToken);
-            HttpContext.Response.Cookies.Append("refresh-token", tokenToReturn.RefreshToken);
+            HttpContext.Response.Cookies.Append("access-token", tokenToReturn.AccessToken, new CookieOptions
+            {
+                SameSite = SameSiteMode.None
+            });
+            HttpContext.Response.Cookies.Append("refresh-token", tokenToReturn.RefreshToken, new CookieOptions
+            {
+                SameSite = SameSiteMode.None
+            });
 
             return Ok(tokenToReturn);
         }
