@@ -44,11 +44,15 @@ namespace EWApp.Presentation.Controllers
 
             HttpContext.Response.Cookies.Append("access-token", tokenDto.AccessToken, new CookieOptions
             {
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                Expires = DateTime.Now.AddMinutes(5)
             });
             HttpContext.Response.Cookies.Append("refresh-token", tokenDto.RefreshToken, new CookieOptions
             {
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                Expires = DateTime.Now.AddDays(7)
             });
 
             return Ok(tokenDto);

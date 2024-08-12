@@ -22,11 +22,15 @@ namespace EWApp.Presentation.Controllers
 
             HttpContext.Response.Cookies.Append("access-token", tokenToReturn.AccessToken, new CookieOptions
             {
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                Expires = DateTime.Now.AddMinutes(5)
             });
             HttpContext.Response.Cookies.Append("refresh-token", tokenToReturn.RefreshToken, new CookieOptions
             {
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                Expires = DateTime.Now.AddDays(7)
             });
 
             return Ok(tokenToReturn);
